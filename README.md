@@ -1,5 +1,7 @@
 # LightsOutGame
 
+ref: <https://youtu.be/hrpulBR5PFg>
+
 ## Installation Step
 
 ### elixir and erlang
