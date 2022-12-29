@@ -1,0 +1,7 @@
+<section class="text-blue-500 text-center">
+  <div x-data="{ message: 'Hello World!' }">
+    <div x-data x-text="message" :class="$store.darkMode.on && 'bg-black'"></div>
+
+    <button x-data @click="$store.darkMode.toggle()">Toggle Dark Mode</button>
+  </div>
+</section>
