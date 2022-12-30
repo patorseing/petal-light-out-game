@@ -33,6 +33,17 @@ ref: <https://tailwindcss.com/docs/guides/phoenix>
 
 ref: <https://fullstackphoenix.com/tutorials/combine-phoenix-liveview-with-alpine-js>
 
+### Set up a LiveView Component
+
+***set in a live folder and set it in `router.ex`***
+
+```ex
+  # get "/", PageController, :index
+  live "/", Board
+```
+
+ref: <https://hexdocs.pm/phoenix_live_view/Phoenix.LiveView.html#content>
+
 ## To start your Phoenix server
 
 * Install dependencies with `mix deps.get`
