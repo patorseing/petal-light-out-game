@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+button {
+  @apply block h-20 px-4 py-6 text-center border rounded bg-rose-300
+}
+
+button:not(.data-on) {
+  @apply bg-stone-300
+}

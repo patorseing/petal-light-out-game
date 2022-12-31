@@ -44,6 +44,10 @@ ref: <https://fullstackphoenix.com/tutorials/combine-phoenix-liveview-with-alpin
 
 ref: <https://hexdocs.pm/phoenix_live_view/Phoenix.LiveView.html#content>
 
+### Some PETAL Component
+
+ref: <https://petal.build/components#install_new_project>
+
 ## To start your Phoenix server
 
 * Install dependencies with `mix deps.get`
