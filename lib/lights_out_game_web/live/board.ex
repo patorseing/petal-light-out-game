@@ -8,15 +8,28 @@ defmodule LightsOutGameWeb.Board do
     {:ok, assign(socket, grid: grid)}
   end
 
-  def handle_event("toggle", %{"x" => strX, "y" => strY, "i" => index}, socket) do
-
+  def handle_event("toggle", %{"i" => index}, socket) do
     grid = socket.assigns.grid
-    grid_x = String.to_integer(strX)
-    grid_y = String.to_integer(strY)
     grid_i = String.to_integer(index)
 
-    updated_grid = List.update_at(grid, grid_i, &({{grid_x, grid_y}, !elem(&1,1)}))
+    updated_grid =
+      Enum.map(Enum.with_index(grid), fn {item, i} ->
+        if Enum.member?(Enum.uniq([grid_i | find_adjacent_tile(grid_i)]), i) do
+          {elem(item, 0), !elem(item, 1)}
+        else
+          item
+        end
+      end)
 
     {:noreply, assign(socket, :grid, updated_grid)}
+  end
+
+  def find_adjacent_tile(i) do
+    left = i - 1
+    right = i + 1
+    upper = i + 5
+    down = i - 5
+
+    Enum.filter([left, upper, right, down], fn x -> x >= 0 end)
   end
 end

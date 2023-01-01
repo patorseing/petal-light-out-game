@@ -1,11 +1,9 @@
 <div class="flex flex-col max-w-lg mx-auto">
   <div class="grid grid-rows-5 grid-cols-5 gap-2 mb-4">
-    <%= for {{{x,y}, value}, index} <- Enum.with_index(@grid) do %>
+    <%= for {{{_x,_y}, value}, index} <- Enum.with_index(@grid) do %>
     <button
       class={if value, do: "data-on", else: ""}
       phx-click="toggle"
-      phx-value-x={x}
-      phx-value-y={y}
       phx-value-i={index}
     ></button>
     <% end %>
