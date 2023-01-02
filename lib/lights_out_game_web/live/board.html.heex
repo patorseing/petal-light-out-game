@@ -1,11 +1,19 @@
 <div class="flex flex-col max-w-lg mx-auto">
   <div class="grid grid-rows-5 grid-cols-5 gap-2 mb-4">
-    <%= for {{{_x,_y}, value}, index} <- Enum.with_index(@grid) do %>
+    <%= for {{x, y}, value} <- @grid do %>
     <button
       class={if value, do: "data-on", else: ""}
       phx-click="toggle"
-      phx-value-i={index}
+      phx-value-x={x}
+      phx-value-y={y}
     ></button>
     <% end %>
   </div>
+  <p>count: <%= @count %> </p>
+  <%= if @win do %>
+    <p class="text-3xl text-center">
+      You won!
+    </p>
+  <% end %>
+  <button phx-click="start">start</button>
 </div>
