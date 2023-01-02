@@ -15,6 +15,12 @@ defmodule LightsOutGameWeb.Board do
 
     grid = Map.merge(grid, level1)
 
+    # grass(grid)
+    # level_ransom =
+    #   for x <- 0..4, y <- 0..4, into: %{}, do: {{x, y}, rem(x + y, Enum.random(2..3)) == 0}
+
+    # grid = Map.merge(grid, level_ransom)
+
     # updated_grid = Enum.reduce(grid, fn point, acc -> Map.put(acc, point, !grid[point]) end)
     {:noreply, assign(socket, grid: grid, count: 0, win: false)}
   end
@@ -55,4 +61,23 @@ defmodule LightsOutGameWeb.Board do
     |> Map.values()
     |> Enum.all?(fn light -> !light end)
   end
+
+  # defp grass(grid) do
+  #   coefficient =
+  #     for i <- 0..4,
+  #         j <- 0..4,
+  #         do: for(x <- 0..4, y <- 0..4, do: Enum.member?(find_adjacent_tile(i, j), {x, y}))
+
+  #   goal =
+  #     grid
+  #     |> Map.values()
+
+  #   # Logger.debug(inspect(coefficient))
+
+  #   # Logger.debug(inspect(grid))
+  # end
+
+  # defp boolean_to_integer(bool) do
+  #   if bool, do: 1, else: 0
+  # end
 end
