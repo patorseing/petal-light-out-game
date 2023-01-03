@@ -1,5 +1,6 @@
 defmodule LightsOutGameWeb.Board do
   require Logger
+  require Nx
   use Phoenix.LiveView
 
   def mount(_params, _session, socket) do
@@ -15,7 +16,21 @@ defmodule LightsOutGameWeb.Board do
   def handle_event("start", %{}, socket) do
     grid = socket.assigns.grid
 
-    level1 = %{{2, 0} => true, {2, 2} => true, {2, 4} => true}
+    # level1 = %{{2, 0} => true, {2, 2} => true, {2, 4} => true}
+    level1 = %{
+      {0, 2} => true,
+      {1, 1} => true,
+      {1, 3} => true,
+      {2, 0} => true,
+      {2, 4} => true,
+      {3, 0} => true,
+      {3, 1} => true,
+      {3, 2} => true,
+      {3, 3} => true,
+      {3, 4} => true,
+      {4, 0} => true,
+      {4, 4} => true
+    }
 
     grid = Map.merge(grid, level1)
 
@@ -26,8 +41,11 @@ defmodule LightsOutGameWeb.Board do
     # grid = Map.merge(grid, level_ransom)
 
     coefficient = get_coefficient()
+
+    # Logger.debug(inspect(coefficient))
     pivot = get_pivot(grid)
-    gauss_elimination(coefficient, pivot)
+    Logger.debug(inspect(pivot))
+    # gauss_elimination(coefficient, pivot)
 
     # updated_grid = Enum.reduce(grid, fn point, acc -> Map.put(acc, point, !grid[point]) end)
     {:noreply,
@@ -79,11 +97,9 @@ defmodule LightsOutGameWeb.Board do
   end
 
   defp get_coefficient() do
-    transpose(
-      for i <- 0..4,
-          j <- 0..4,
-          do: for(x <- 0..4, y <- 0..4, do: Enum.member?(find_adjacent_tile(i, j), {x, y}))
-    )
+    for i <- 0..4,
+        j <- 0..4,
+        do: for(x <- 0..4, y <- 0..4, do: Enum.member?(find_adjacent_tile(i, j), {x, y}))
   end
 
   def transpose(matrix) do
