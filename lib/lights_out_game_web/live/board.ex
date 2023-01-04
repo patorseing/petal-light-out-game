@@ -11,18 +11,28 @@ defmodule LightsOutGameWeb.Board do
   def handle_event("start", %{}, socket) do
     grid = socket.assigns.grid
 
-    level1 = %{{2, 0} => true, {2, 2} => true, {2, 4} => true}
+    # level1 = %{{2, 0} => true, {2, 2} => true, {2, 4} => true}
 
-    grid = Map.merge(grid, level1)
+    # grid = Map.merge(grid, level1)
 
+    level_ransom = generate_puzzle()
+
+    grid = Map.merge(grid, level_ransom)
     # grass(grid)
-    # level_ransom =
-    #   for x <- 0..4, y <- 0..4, into: %{}, do: {{x, y}, rem(x + y, Enum.random(2..3)) == 0}
-
-    # grid = Map.merge(grid, level_ransom)
+    # level_ransom = for !grid = Map.merge(grid, level_ransom)
 
     # updated_grid = Enum.reduce(grid, fn point, acc -> Map.put(acc, point, !grid[point]) end)
     {:noreply, assign(socket, grid: grid, count: 0, win: false)}
+  end
+
+  def generate_puzzle() do
+    level = for x <- 0..4, y <- 0..4, into: %{}, do: {{x, y}, rem(x + y, Enum.random(2..3)) == 0}
+
+    if issolvable(level) do
+      level
+    else
+      generate_puzzle()
+    end
   end
 
   def handle_event("toggle", %{"x" => strX, "y" => strY}, socket) do
@@ -62,22 +72,14 @@ defmodule LightsOutGameWeb.Board do
     |> Enum.all?(fn light -> !light end)
   end
 
-  # defp grass(grid) do
-  #   coefficient =
-  #     for i <- 0..4,
-  #         j <- 0..4,
-  #         do: for(x <- 0..4, y <- 0..4, do: Enum.member?(find_adjacent_tile(i, j), {x, y}))
+  def issolvable(puzzle) when is_map(puzzle) do
+    # Flatten the puzzle into a list of integers
+    flat_puzzle = for {x, y, on} <- puzzle, do: on
 
-  #   goal =
-  #     grid
-  #     |> Map.values()
+    # Count the number of 1s in the puzzle
+    num_ones = Enum.count(flat_puzzle, 1)
 
-  #   # Logger.debug(inspect(coefficient))
-
-  #   # Logger.debug(inspect(grid))
-  # end
-
-  # defp boolean_to_integer(bool) do
-  #   if bool, do: 1, else: 0
-  # end
+    # The puzzle is solvable if the number of 1s is even
+    rem(num_ones, 2) == 0
+  end
 end
